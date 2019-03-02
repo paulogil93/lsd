@@ -1,0 +1,42 @@
+--------------------------------------------
+-- Paulo Gil - 76361 - paulogil@ua.pt
+-- Rui Pires - 76319 - aprm@ua.pt
+-- Micro-Projeto-LSD-2016
+--------------------------------------------
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+
+entity Bin2BCD is
+	port(binIn	: in	std_logic_vector(7 downto 0);
+		  BCDOut : out std_logic_vector(7 downto 0));
+end Bin2BCD;
+
+architecture Behavioral of Bin2BCD is
+begin
+
+	process(binIn)
+	begin
+		if(binIn < 10) then
+			BCDOut <= "0000" & binIn(3 downto 0);
+		elsif(binIn >= 10 and binIn < 20) then
+			BCDOut <= "0001" & (binIn(3 downto 0) - 10);
+		elsif(binIn >= 20 and binIn < 30) then
+			BCDOut <= "0010" & (binIn(3 downto 0) - 20);
+		elsif(binIn >= 30 and binIn < 40) then
+			BCDOut <= "0011" & (binIn(3 downto 0) - 30);
+		elsif(binIn >= 40 and binIn < 50) then
+			BCDOut <= "0100" & (binIn(3 downto 0) - 40);
+		elsif(binIn >= 50 and binIn < 60) then
+			BCDOut <= "0101" & (binIn(3 downto 0) - 50);
+		elsif(binIn >= 60 and binIn < 70) then
+			BCDOut <= "0110" & (binIn(3 downto 0) - 60);
+		elsif(binIn >= 70 and binIn < 80) then
+			BCDOut <= "0111" & (binIn(3 downto 0) - 70);
+		elsif(binIn >= 80 and binIn < 90) then
+			BCDOut <= "1000" & (binIn(3 downto 0) - 80);
+		elsif(binIn >= 90 and binIn < 100) then
+			BCDOut <= "1001" & (binIn(3 downto 0) - 90);
+		end if;
+	end process;
+end Behavioral;

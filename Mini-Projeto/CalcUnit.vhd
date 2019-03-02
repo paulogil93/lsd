@@ -1,0 +1,70 @@
+--------------------------------------------
+-- Paulo Gil
+-- 76361
+-- paulogil@ua.pt
+-- Mini-Projecto
+-- LSD-2016
+--------------------------------------------
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+use IEEE.NUMERIC_STD.all;
+
+entity CalcUnit is
+	generic(N			:		positive := 16);
+	port(clk				: in	std_logic;
+		  enable			: in	std_logic;
+		  reset			: in	std_logic;
+		  op				: in	std_logic_vector(1 downto 0);
+		  timeValue		: in	std_logic_vector((N-1) downto 0);
+		  readAddress	: out	std_logic_vector(3 downto 0);
+		  result			: out std_logic_vector((N-1) downto 0));
+end CalcUnit;
+
+architecture Behavioral of CalcUnit is
+
+	signal s_address	: unsigned(3 downto 0);
+	signal s_min	 	: unsigned((N-1) downto 0) := (others => '1');
+	signal s_max	 	: unsigned((N-1) downto 0) := (others => '0');
+	signal s_sum		: unsigned((N-1) downto 0);
+	signal s_timeValue: unsigned((N-1) downto 0);
+	signal s_count		: natural;
+	signal s_average	: unsigned((N-1) downto 0);
+
+begin
+
+	s_timeValue <= unsigned(timeValue);
+	
+	process(clk)
+	begin
+		if(reset = '1') then
+			s_count <= 0;
+			s_min <= (others => '1');
+			s_max <= (others => '0');
+			s_address <= (others => '0');
+			s_sum <= (others => '0');
+		elsif(enable = '1' and s_count <= 5) then
+			if(rising_edge(clk)) then
+				s_sum <= s_sum + s_timeValue;
+				s_address <= s_address + 1;
+				s_count <= s_count + 1;
+				if(s_timeValue < s_min) then
+					s_min <= s_timeValue;
+				end if;
+				if(s_timeValue > s_max) then
+					s_max <= s_timeValue;
+				end if;
+			end if;
+		end if;
+	end process;
+	
+	s_average <= s_sum / 5;
+	readAddress <= std_logic_vector(s_address);
+	
+	result <= std_logic_vector(s_min)					when (op = "00") else   --Min Value
+				 std_logic_vector(s_average) 				when (op = "01") else	--Average
+				 std_logic_vector(s_max)	  				when (op = "10") else	--Max Value
+				 (others => '0')								when (op = "00");
+				 
+					
+end Behavioral;

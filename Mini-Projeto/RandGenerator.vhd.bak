@@ -1,0 +1,24 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+
+entity RandGenerator is
+	generic(start	:		positive := 1;
+			  finish :		positive := 10);
+		port(clkIn	: in	std_logic;
+			  Enable	: in	std_logic;
+			  random : out std_logic_vector(3 downto 0));
+end RandGenerator;
+
+architecture Structural of RandGenerator is
+
+	signal s_random: std_logic_vector(3 downto 0);
+
+begin
+
+	generator: entity work.pseudo_random_generator(v1)
+		generic map(n_bits => 4,
+						version => 0,
+						seed => X"1357_0246_FEDC_89AB")
+			port map(clk => clkIn,
+						enable => Enable,
+						rnd => s_random);

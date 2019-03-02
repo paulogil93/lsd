@@ -1,0 +1,17 @@
+--------------------------------------------
+-- Paulo Gil
+-- paulogil@ua.pt
+-- LSD-2016
+--------------------------------------------
+4.
+          A3  B3      A2  B2      A1  B1      A0  B0
+	 _|_ _|_     _|_ _|_     _|_ _|_     _|_ _|_     
+	|       |   |       |   |       |   |       |   
+  C4 <--| Full  |<--| Full  |<--| Full  |<--| Full  |<-- C0
+        | Adder | C3| Adder | C2| Adder | C1| Adder |
+	|_ _ _ _|   |_ _ _ _|   |_ _ _ _|   |_ _ _ _|
+            |		|	    |           |
+	    S3          S2          S1          S0
+
+5. O somador ripple carry tem 3 sinais internos de Carry(C1, C2 e C3),
+que interligam assim os 4 somadores de 1-bit.

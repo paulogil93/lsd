@@ -1,0 +1,44 @@
+--------------------------------------------
+-- Paulo Gil - 76361
+-- Rui Pires
+-- paulogil@ua.pt
+--
+-- Micro-Projeto-LSD-2016
+-------------------------------------------
+
+library IEEE;
+use IEEE.STD_LOGIC.all;
+
+entity CardReader is
+	port(clk			: in	std_logic;
+		  cardInput	: in	std_logic;
+		  cardOutput: out	std_logic);
+end CardReader;
+
+architecture Behavioral of CardReader is
+
+	signal s_count: natural;
+
+begin
+
+	process(clk)
+	begin
+	
+		if(rising_edge(clk)) then
+			if(cardInput = '1' and s_count = 0) then
+				s_count <= s_count + 1;
+				cardOutput <= '1';
+			elsif(s_count < 500000000) then
+				s_count <= s_count + 1;
+				cardOutput <= '1';
+			elsif(s_count = 500000000) then
+				s_count <= 0;
+				cardOut <= '0';
+			end if;
+		end if;
+	end process;
+
+end Behavioral;
+	
+			
+		  

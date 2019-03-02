@@ -1,0 +1,20 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+
+entity Bin2BCD is
+	port(bin		: in	std_logic_vector(15 downto 0);
+		  bcd		: out	std_logic_vector(15 downto 0));
+end Bin2BCD;
+
+architecture Behavioral of Bin2BCD is
+
+	signal s_bin: unsigned(15 downto 0);
+
+begin
+
+	bcd(15 downto 12) <= s_bin / 1000;
+	bcd(11 downto 8)	<= (s_bin / 1000) / 100;
+	bcd(7 downto 4)	<= ((s_bin / 1000) / 100) / 10;
+	bcd(3 downto 0)	<= ((s_bin / 1000) / 100) rem 10;
+
+end Behavioral;	

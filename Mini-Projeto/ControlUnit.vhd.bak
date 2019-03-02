@@ -1,0 +1,86 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+
+entity ControlUnit is
+	port(clk				: in	std_logic;
+		  reset			: in	std_logic;
+		  validTime		: in	std_logic;
+		  timeData		: in	std_logic_vector(3 downto 0);
+		  writeEnable	: out	std_logic;
+		  writeAddress	: out std_logic_vector(2 downto 0);
+		  averageReady	: out std_logic);
+end ControlUnit;
+
+architecture Behavioral of ControlUnit is
+	type TState is (S0, S1, S2, S3, S4, S5);
+	signal PState, NState: TState;
+begin
+	
+	sync_proc: process(clk, reset)
+	begin
+		if(reset = '1') then
+			PState <= S0;
+			timeData <= (others => '0');
+			writeEnable <= '0';
+			writeAddress <= (others => '0');
+		elsif(rising_edge(clk)) then
+			PState <= NState;
+		end if;
+	end process;
+	
+	comb_proc: process(PState, validTime, timeData)
+	begin
+		aveageReady <= '0';
+		case PState is
+			when S0 =>
+				if(validTime = '1') then
+					writeEnable = '1';
+					writeAddress = "0000";
+					NState <= S1;
+				else
+					NState <= S0;
+				end if;
+				writeEnable = '0';
+			when S1 =>
+				if(validTime = '1') then
+					writeEnable = '1';
+					writeAddress = "0001";
+					NState <= S2;
+				else
+					NState <= S1;
+				end if;
+				writeEnable = '0';
+			when S2 =>
+				if(validTime = '1') then
+					writeEnable = '1';
+					writeAddress = "0010";
+					NState <= S3;
+				else
+					NState <= S2;
+				end if;
+				writeEnable = '0';
+			when S3 =>
+				if(validTime = '1') then
+					writeEnable = '1';
+					writeAddress = "0011";
+					NState <= S4;
+				else
+					NState <= S3;
+				end if;
+				writeEnable = '0';
+			when S4 =>
+				if(validTime = '1') then
+					writeEnable = '1';
+					writeAddress = "0100";
+					NState <= S5;
+				else
+					NState <= S4;
+				end if;
+				writeEnable = '0';
+			when S5 =>
+				averageReady = '1';
+				NState <= S0;
+		end case;
+	end process;
+end Behavioral;
+				

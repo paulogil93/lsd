@@ -1,0 +1,30 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+
+entity DrinksMachine is
+	port(CLOCK_50	: in	std_logic;
+		  KEY			: in	std_logic_vector(0 downto 0);
+		  SW			: in	std_logic_vector(1 downto 0);
+		  LEDG		: out std_logic_vector(0 downto 0));
+end DrinksMachine;
+
+architecture Shell of DrinksMachine is
+
+	signal s_clk: std_logic;
+
+begin
+
+	freq_divider: entity work.FreqDividerN(Behavioral)
+		generic map(N			=> 25000000)
+			port map(enable	=> '1',
+						clkIn		=> CLOCK_50,
+						clkOut	=> s_clk);
+
+	system_core: entity work.ControlUnit(Behavioral)
+		port map(clk	=> s_clk,
+					reset => KEY(0),
+					Vin	=> SW(0),
+					Cin	=> SW(1),
+					drink => LEDG(0));
+					end Shell;
+					

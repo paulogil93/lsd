@@ -1,0 +1,21 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+use IEEE.NUMERIC_STD.all;
+
+entity ROM_16_8 is
+	port(address: in	std_logic_vector(3 downto 0);
+		  dataOut: out std_logic_vector(7 downto 0));
+end ROM_16_8;
+
+architecture Behavioral of ROM_16_8 is
+	
+	subtype TData is std_logic_vector(7 downto 0);
+	type TROM is array(15 downto 0) of TData;
+	constant my_rom: TROM := (x"A1",x"A2",x"A3",x"A4",x"A5",x"A6",x"A7",x"A8",
+									  x"A9",x"AA",x"AB",x"AC",x"AD",x"AE",x"AF",x"B0");
+
+begin
+
+	dataOut <= my_rom(to_integer(unsigned(address)));
+	
+end Behavioral;

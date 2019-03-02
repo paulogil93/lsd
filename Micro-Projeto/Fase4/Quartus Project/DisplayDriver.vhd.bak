@@ -1,0 +1,19 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+
+entity DisplayDriver is
+	port(bcdIn   : in		std_logic_vector(7 downto 0);
+		  display0: out	std_logic_vector(6 downto 0);
+		  display1: out	std_logic_vector(6 downto 0);
+		  display2: out	std_logic_vector(6 downto 0);
+		  display3:	out	std_logic_vector(6 downto 0));
+end DisplayDriver;
+
+architecture Structural of DisplayDriver is
+
+	signal s_blink: std_logic;
+
+begin
+
+	if(bcdIn = "00000000") then
+		

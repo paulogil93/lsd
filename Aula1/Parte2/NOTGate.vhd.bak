@@ -1,0 +1,12 @@
+entity IEEE;
+use IEEE.STD_LOGIC_1164.all;
+
+entity NOTGate is
+	port(portIn : in std_logic;
+		  portOut : out std_logic);
+end NOTGate;
+
+architecture Behavioral of NOTGate is
+begin
+		portOut <= not portIn;
+end Behavioral;

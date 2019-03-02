@@ -1,0 +1,44 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+
+entity GateTimerN is
+	generic(N	    :		 positive := 10);
+	port	 (clk     : in	 std_logic;
+			  gateIn  : in	 std_logic;
+			  gateOut0: out std_logic;
+			  gateOut1: out std_logic;
+			  gateOut2: out std_logic);
+end GateTimerN;
+
+architecture Behavioral of ParkTimerN is
+
+	signal s_counter: natural;
+
+begin
+
+	process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if(gateIn = '1') then
+				if(s_counter = 0) then
+					s_counter <= s_counter + 1;
+					gateOut0 <= '1';
+				end if;
+			elsif(s_counter > 0 and s_counter < 8) then
+				s_counter <= s_counter + 1;
+				gateOut0 <= '0';
+				gateOut1 <= '1';
+			elsif(s_counter > 7 and s_counter < N) then
+				s_counter <= s_counter + 1;
+				gateOut1 <= '0';
+				gateOut2 <= '1';
+			elsif(s_counter = N) then
+				s_counter <= 0;
+				gateOut0 <= '0';
+				gateOut1 <= '0';
+				gateOut2 <= '0';
+			end if;
+		end if;
+	end process;
+
+end Behavioral;

@@ -1,0 +1,33 @@
+--------------------------------------------
+-- Paulo Gil - 76361 - paulogil@ua.pt
+-- Rui Pires - 76319 - aprm@ua.pt
+-- Micro-Projeto-LSD-2016
+--------------------------------------------
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+
+entity SpaceCounter is
+	generic(MAX			:		positive := 99);
+		port(sensorIn	: in	std_logic;
+			  sensorOut	: in	std_logic;
+			  count		: out	std_logic_vector(7 downto 0));
+end ParkDisplay;
+
+architecture Behavioral of SpaceCounter is
+
+	signal s_count: unsigned(7 downto 0);
+
+begin
+
+	s_count <= unsigned(MAX);
+	
+	if(sensorIn = '0' and s_count > 0) then
+		s_count = s_count - 1;
+	elsif(sensorOut = '0' ) then
+		s_count = s_count + 1;
+	end if;
+	
+	count <= std_logic_vector(s_count);
+	
+end Behavioral;
